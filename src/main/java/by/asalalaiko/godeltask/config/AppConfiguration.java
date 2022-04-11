@@ -1,4 +1,4 @@
-package com.mastery.java.task.config;
+package by.asalalaiko.godeltask.config;
 
 public class AppConfiguration {
 }
