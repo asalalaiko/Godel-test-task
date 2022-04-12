@@ -16,17 +16,11 @@ public class Employee {
     private String lastName;
     private Long departmentId;
     private String jobTitle;
-    private Gender gender;
+    private String gender;
     private Date dataOfBirth;
 
-    public Employee(Long employeeId, String firstName, String lastName, Long departmentId, String jobTitle, Gender gender, Date dataOfBirth) {
-        this.employeeId = employeeId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.departmentId = departmentId;
-        this.jobTitle = jobTitle;
-        this.gender = gender;
-        this.dataOfBirth = dataOfBirth;
+    public Employee() {
+
     }
 
     public Long getEmployeeId() {
@@ -45,11 +39,11 @@ public class Employee {
         this.firstName = firstName;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -83,5 +77,18 @@ public class Employee {
 
     public void setDataOfBirth(Date dataOfBirth) {
         this.dataOfBirth = dataOfBirth;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "employeeId=" + employeeId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", departmentId=" + departmentId +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", gender=" + gender +
+                ", dataOfBirth=" + dataOfBirth +
+                '}';
     }
 }

@@ -1,20 +1,13 @@
 package by.asalalaiko.godeltask.service;
 
-import by.asalalaiko.godeltask.dao.EmployeeDao;
 import by.asalalaiko.godeltask.dto.Employee;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
-public class EmployeeService {
+import java.util.List;
 
-    @Autowired
-    EmployeeDao employeeDao;
-
-
-    public void createEmployee(Employee employee){
-        employeeDao.createEmployee(employee);
-    }
-
-
+public interface EmployeeService {
+    public void createEmployee(Employee employee);
+    public void saveEmployee(Employee employee);
+    public void deleteEmployeeById(Long empId);
+    public Employee findEmployeeById(Long empId);
+    public List<Employee> findAllEmployees();
 }
