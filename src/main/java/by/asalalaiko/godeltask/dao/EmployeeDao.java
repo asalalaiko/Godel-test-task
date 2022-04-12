@@ -1,9 +1,11 @@
 package by.asalalaiko.godeltask.dao;
 
 import by.asalalaiko.godeltask.dto.Employee;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface EmployeeDao {
 
     public void createEmployee(Employee employee);
