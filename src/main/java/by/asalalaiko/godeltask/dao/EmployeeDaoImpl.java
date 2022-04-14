@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,10 +24,10 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
 
 
     public static final String INSERT_STATEMENT = "INSERT INTO employee (first_name, last_name, departament_id, job_title, gender, date_of_birth) VALUES (?,?,?,?,?,?)";
-    public static final String UPDATE_STATEMENT = "UPDATE %s SET %s WHERE id = %s";
-    public static final String DELETE_STATEMENT = "DELETE FROM employee WHERE id = %d";
+    public static final String UPDATE_STATEMENT = "UPDATE employee SET first_name=?, last_name=?, departament_id=?, job_title=?, gender=?, date_of_birth=? WHERE id = ?";
+    public static final String DELETE_STATEMENT = "DELETE FROM employee WHERE employee_id = ?";
     public static final String SELECT_STATEMENT = "SELECT * FROM employee";
-    public static final String SELECT_BY_ID_SQL = "SELECT * FROM employee WHERE id = %d";
+    public static final String SELECT_BY_ID_SQL = "SELECT * FROM employee WHERE employee_id = ?";
 
 
 
@@ -39,29 +40,33 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     }
 
     @Override
-    public void saveEmployee(Employee employee) {
-        getJdbcTemplate().update(INSERT_STATEMENT, new Object[] { employee.getEmployeeId(),
-                employee.getFirstName(), employee.getGender()
+    public void updateEmployee(Employee employee) {
+        getJdbcTemplate().update(UPDATE_STATEMENT, new Object[] {
+                employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(),
+                employee.getJobTitle(), employee.getGender(), employee.getDataOfBirth(),
+                employee.getEmployeeId()
         });
     }
 
     @Override
     public void deleteEmployeeById(Long empId) {
-
+        getJdbcTemplate().update(DELETE_STATEMENT, new Object[]{empId});
     }
 
     @Override
     public Employee findEmployeeById(Long empId) {
         Employee emp = null;
-        String query = "select * from employee where emp_id=?";
-        Object[] inputs = new Object[] {empId};
-        emp = (Employee) getJdbcTemplate().queryForObject(query, inputs,
-                new BeanPropertyRowMapper(Employee.class));
+        emp = (Employee) getJdbcTemplate().query(SELECT_BY_ID_SQL, new Object[]{empId}, new BeanPropertyRowMapper(Employee.class))
+                .stream().findAny().orElse(null);
         return emp;
     }
 
     @Override
     public List<Employee> findAllEmployees() {
-        return null;
+        List<Employee> empList = new ArrayList<Employee>();
+        empList = getJdbcTemplate().query(SELECT_STATEMENT,
+                new BeanPropertyRowMapper(Employee.class));
+
+        return empList;
     }
 }
