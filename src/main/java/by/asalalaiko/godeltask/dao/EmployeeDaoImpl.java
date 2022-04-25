@@ -32,20 +32,22 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
 
 
     @Override
-    public void createEmployee(Employee employee) {
+    public Employee createEmployee(Employee employee) {
                 getJdbcTemplate().update(INSERT_STATEMENT, new Object[] {
                         employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(),
                         employee.getJobTitle(), employee.getGender(), employee.getDataOfBirth()
         });
+        return employee;
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
+    public Employee updateEmployee(Employee employee) {
         getJdbcTemplate().update(UPDATE_STATEMENT, new Object[] {
                 employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(),
                 employee.getJobTitle(), employee.getGender(), employee.getDataOfBirth(),
                 employee.getEmployeeId()
         });
+        return employee;
     }
 
     @Override
