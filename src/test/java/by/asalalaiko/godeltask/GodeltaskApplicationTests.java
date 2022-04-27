@@ -1,14 +1,14 @@
 package by.asalalaiko.godeltask;
 
-import by.asalalaiko.godeltask.dto.Employee;
-import by.asalalaiko.godeltask.dto.Gender;
-import by.asalalaiko.godeltask.service.EmployeeServiceImpl;
+
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,19 +35,9 @@ class GodeltaskApplicationTests {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@Autowired
-	private EmployeeServiceImpl employeeService;
-
-
-
 	@Before
 	public void init() throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
-		employeeService.createEmployee(new Employee(1L,"Ivan","Ivanov", 10L,"manger", Gender.MALE, (Date) formatter.parse("1985-05-05")));
-		employeeService.createEmployee(new Employee(2L,"Ira","Ivanova", 10L,"manger", Gender.FEMALE, (Date) formatter.parse("1996-02-25")));
-		employeeService.createEmployee(new Employee(3L,"Sasha","Ivanov", 10L,"manger", Gender.MALE, (Date) formatter.parse("1988-05-15")));
-		employeeService.createEmployee(new Employee(4L,"Oleg","Olegov", 10L,"manger", Gender.MALE, (Date) formatter.parse("2000-12-30")));
-		employeeService.createEmployee(new Employee(5L,"Nataly","Ivanova", 10L,"manger", Gender.FEMALE, (Date) formatter.parse("1999-01-15")));
+
 	}
 
     @Test
@@ -55,17 +45,15 @@ class GodeltaskApplicationTests {
 
         mockMvc.perform(get("/employees/2"))
                 /*.andDo(print())*/
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.firstName", is("Ivan")))
-                .andExpect(jsonPath("$.lastName", is("Ivanov")))
-                .andExpect(jsonPath("$.departmentId", is("Ivanov")))
-                .andExpect(jsonPath("$.jobTitle", is("Ivanov")))
-                .andExpect(jsonPath("$.gender", is("Ivanov")))
-                .andExpect(jsonPath("$.dateOfBirth", is(9.99)));
-
-        verify(employeeService, times(1)).findEmployeeById(1L);
+                .andExpect(jsonPath("$.employeeId", is(2)))
+                .andExpect(jsonPath("$.firstName", is("Ann")))
+                .andExpect(jsonPath("$.lastName", is("Smitt")))
+                .andExpect(jsonPath("$.departmentId", is(14)))
+                .andExpect(jsonPath("$.jobTitle", is("engineer")))
+                .andExpect(jsonPath("$.gender", is("FEMALE")))
+                .andExpect(jsonPath("$.dateOfBirth", is(948574800000L)));
 
     }
 
