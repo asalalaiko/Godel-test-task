@@ -6,6 +6,7 @@ import com.sun.istack.NotNull;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Employee {
@@ -16,12 +17,22 @@ public class Employee {
     private String lastName;
     private Long departmentId;
     private String jobTitle;
-    private String gender;
-    private Date dataOfBirth;
+    private Gender gender;
+    private Date dateOfBirth;
 
     public Employee() {
-
     }
+
+    public Employee(Long employeeId, String firstName, String lastName, Long departmentId, String jobTitle, Gender gender, Date dateOfBirth) {
+        this.employeeId = employeeId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.departmentId = departmentId;
+        this.jobTitle = jobTitle;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+    }
+
 
     public Long getEmployeeId() {
         return employeeId;
@@ -39,11 +50,11 @@ public class Employee {
         this.firstName = firstName;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -71,12 +82,12 @@ public class Employee {
         this.jobTitle = jobTitle;
     }
 
-    public Date getDataOfBirth() {
-        return dataOfBirth;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDataOfBirth(Date dataOfBirth) {
-        this.dataOfBirth = dataOfBirth;
+    public void setDateOfBirth(Date dataOfBirth) {
+        this.dateOfBirth = dataOfBirth;
     }
 
     @Override
@@ -88,7 +99,7 @@ public class Employee {
                 ", departmentId=" + departmentId +
                 ", jobTitle='" + jobTitle + '\'' +
                 ", gender=" + gender +
-                ", dataOfBirth=" + dataOfBirth +
+                ", dateOfBirth=" + dateOfBirth +
                 '}';
     }
 }

@@ -63,7 +63,7 @@ class GodeltaskApplicationTests {
                 .andExpect(jsonPath("$.departmentId", is("Ivanov")))
                 .andExpect(jsonPath("$.jobTitle", is("Ivanov")))
                 .andExpect(jsonPath("$.gender", is("Ivanov")))
-                .andExpect(jsonPath("$.dataOfBirth", is(9.99)));
+                .andExpect(jsonPath("$.dateOfBirth", is(9.99)));
 
         verify(employeeService, times(1)).findEmployeeById(1L);
 

@@ -23,8 +23,8 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     }
 
 
-    public static final String INSERT_STATEMENT = "INSERT INTO employee (first_name, last_name, departament_id, job_title, gender, date_of_birth) VALUES (?,?,?,?,?,?)";
-    public static final String UPDATE_STATEMENT = "UPDATE employee SET first_name=?, last_name=?, departament_id=?, job_title=?, gender=?, date_of_birth=? WHERE id = ?";
+    public static final String INSERT_STATEMENT = "INSERT INTO employee (first_name, last_name, department_id, job_title, gender, date_of_birth) VALUES (?,?,?,?,?,?)";
+    public static final String UPDATE_STATEMENT = "UPDATE employee SET first_name=?, last_name=?, department_id=?, job_title=?, gender=?, date_of_birth=? WHERE id = ?";
     public static final String DELETE_STATEMENT = "DELETE FROM employee WHERE employee_id = ?";
     public static final String SELECT_STATEMENT = "SELECT * FROM employee";
     public static final String SELECT_BY_ID_SQL = "SELECT * FROM employee WHERE employee_id = ?";
@@ -35,7 +35,7 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     public Employee createEmployee(Employee employee) {
                 getJdbcTemplate().update(INSERT_STATEMENT, new Object[] {
                         employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(),
-                        employee.getJobTitle(), employee.getGender(), employee.getDataOfBirth()
+                        employee.getJobTitle(), employee.getGender(), employee.getDateOfBirth()
         });
         return employee;
     }
@@ -44,7 +44,7 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     public Employee updateEmployee(Employee employee) {
         getJdbcTemplate().update(UPDATE_STATEMENT, new Object[] {
                 employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(),
-                employee.getJobTitle(), employee.getGender(), employee.getDataOfBirth(),
+                employee.getJobTitle(), employee.getGender(), employee.getDateOfBirth(),
                 employee.getEmployeeId()
         });
         return employee;
@@ -57,7 +57,7 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
 
     @Override
     public Employee findEmployeeById(Long empId) {
-        Employee emp = null;
+        Employee emp = new Employee();
         emp = (Employee) getJdbcTemplate().query(SELECT_BY_ID_SQL, new Object[]{empId}, new BeanPropertyRowMapper(Employee.class))
                 .stream().findAny().orElse(null);
         return emp;
@@ -66,8 +66,7 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     @Override
     public List<Employee> findAllEmployees() {
         List<Employee> empList = new ArrayList<Employee>();
-        empList = getJdbcTemplate().query(SELECT_STATEMENT,
-                new BeanPropertyRowMapper(Employee.class));
+        empList = getJdbcTemplate().query(SELECT_STATEMENT, new BeanPropertyRowMapper(Employee.class));
 
         return empList;
     }
