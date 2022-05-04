@@ -35,7 +35,7 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     public Employee createEmployee(Employee employee) {
                 getJdbcTemplate().update(INSERT_STATEMENT, new Object[] {
                         employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(),
-                        employee.getJobTitle(), employee.getGender(), employee.getDateOfBirth()
+                        employee.getJobTitle(), employee.getGender().toString(), employee.getDateOfBirth()
         });
         return employee;
     }
@@ -44,7 +44,7 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     public Employee updateEmployee(Employee employee) {
         getJdbcTemplate().update(UPDATE_STATEMENT, new Object[] {
                 employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(),
-                employee.getJobTitle(), employee.getGender(), employee.getDateOfBirth(),
+                employee.getJobTitle(), employee.getGender().toString(), employee.getDateOfBirth(),
                 employee.getEmployeeId()
         });
         return employee;

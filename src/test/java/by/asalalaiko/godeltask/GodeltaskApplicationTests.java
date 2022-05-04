@@ -1,6 +1,10 @@
 package by.asalalaiko.godeltask;
 
 
+import by.asalalaiko.godeltask.dto.Employee;
+import by.asalalaiko.godeltask.dto.Gender;
+import by.asalalaiko.godeltask.service.EmployeeServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -9,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -23,6 +29,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -32,13 +39,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class GodeltaskApplicationTests {
 
+	private static final ObjectMapper om = new ObjectMapper();
+
 	@Autowired
 	private MockMvc mockMvc;
 
-	@Before
-	public void init() throws ParseException {
+	@Autowired
+	private EmployeeServiceImpl employeeService;
 
-	}
 
     @Test
     public void find_employeeId() throws Exception {
@@ -56,6 +64,50 @@ class GodeltaskApplicationTests {
                 .andExpect(jsonPath("$.dateOfBirth", is(948574800000L)));
 
     }
+
+	@Test
+	public void save_employee_OK() throws Exception {
+
+		Employee employee = new Employee();
+		employee.setFirstName("TestName");
+		employee.setLastName("TestLastName");
+		employee.setDepartmentId(15L);
+		employee.setJobTitle("cleaner");
+		employee.setGender(Gender.FEMALE);
+		employee.setDateOfBirth(Date.valueOf("1980-04-16"));
+
+
+		mockMvc.perform(post("/employees")
+				.content(om.writeValueAsString(employee))
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+				/*.andDo(print())*/
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.firstName", is("TestName")))
+				.andExpect(jsonPath("$.lastName", is("TestLastName")))
+				.andExpect(jsonPath("$.departmentId", is(15)));
+	}
+
+	@Test
+	public void update_book_OK() throws Exception {
+
+		String responseJsonString  =   mockMvc.perform(get("/employees/2"))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		ObjectMapper objectMapper = new ObjectMapper();
+		Employee employee = objectMapper.readValue(responseJsonString, Employee.class);
+
+		employee.setFirstName("TestFirstName");
+
+		mockMvc.perform(put("/employees")
+				.content(om.writeValueAsString(employee))
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.firstName", is("TestFirstName")));
+
+
+	}
 
 
 	@Test
