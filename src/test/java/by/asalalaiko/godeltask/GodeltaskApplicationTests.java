@@ -105,9 +105,23 @@ class GodeltaskApplicationTests {
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.firstName", is("TestFirstName")));
-
-
 	}
+
+	@Test
+	public void delete_book_OK() throws Exception {
+
+		mockMvc.perform(delete("/employees/1")
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+				.andDo(print())
+				.andExpect(status().isOk());
+
+
+		mockMvc.perform(get("/employees")
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+				.andDo(print());
+	}
+
+
 
 
 	@Test
