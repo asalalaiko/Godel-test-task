@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+
+</head>
+
+<body>
+
+<div class="container border-5">
+    <div class="row justify-content-center  p-1">
+        <form method="post" th:action="@{/}" th:object="${employee}">
+            <input  type="hidden" name="employeeId" th:field="*{employeeId}"/>
+            <input  type="text" name="firstName" th:field="*{firstName}"/>
+            <input  type="text" name="lastName" th:field="*{lastName}"/>
+            <input  type="number" name="departmentId" th:field="*{departmentId}"/>
+            <input  type="text" name="jobTitle" th:field="*{jobTitle}"/>
+            <select name="gender" th:field="*{gender}">
+                <!--/*@thymesVar id="value" type=""*/-->
+                <option th:each="gender : ${T(by.asalalaiko.godeltask.dto.Gender).value()}"
+                        th:value="${gender}" th:text="${gender}"></option>
+            </select>
+            <input  type="text" name="gender" th:field="*{gender}"/>
+            <input  type="date" name="dateOfBirth" th:field="*{dateOfBirth}"/>
+            <button type="submit">save</button>
+        </form>
+    </div>
+
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Department Id</th>
+            <th scope="col">Job title</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Date Of Birth</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+
+        <tr th:each="employee : ${employees}">
+
+            <td th:text="${employee.employeeId}" />
+            <td th:text="${employee.firstName}" />
+            <td th:text="${employee.lastName}" />
+            <td th:text="${employee.departmentId}" />
+            <td th:text="${employee.jobTitle}" />
+            <td th:text="${employee.gender}" />
+            <td th:text="${employee.dateOfBirth}" />
+
+            <td>
+                <a class="btn btn-danger"
+                   th:href="@{'/admin/city/delete?id='+${employee.employeeId}}">Delete</a>
+                <a class="btn btn-success"
+                   th:href="@{'/admin/city/edit?id='+${employee.employeeId}}">Edit</a> </td>
+
+        </tr>
+    </table>
+</div>
+</div>
+</div>
+
+</body>
+</html>
