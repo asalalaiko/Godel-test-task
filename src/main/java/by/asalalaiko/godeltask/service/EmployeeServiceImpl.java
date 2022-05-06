@@ -21,7 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public Employee saveEmployee(Employee employee) {
-        if (employee.getDepartmentId()==null) return employeeDao.createEmployee(employee);
+        if (employee.getEmployeeId()==null) return employeeDao.createEmployee(employee);
         return employeeDao.updateEmployee(employee);
     }
 
