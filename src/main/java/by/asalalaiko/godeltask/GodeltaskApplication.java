@@ -1,6 +1,7 @@
 package by.asalalaiko.godeltask;
 
 
+import by.asalalaiko.godeltask.dto.Gender;
 import by.asalalaiko.godeltask.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;

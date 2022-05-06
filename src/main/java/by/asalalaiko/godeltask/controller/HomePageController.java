@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -25,31 +26,30 @@ public class HomePageController {
         return "index";
     }
 
-    @PostMapping("/")
-    public String addCity(@Valid Employee employee) {
+    @PostMapping("/save")
+    public String add(@Valid Employee employee) {
 
-        employeeService.createEmployee(employee);
+        employeeService.saveEmployee(employee);
 
         return "redirect:/";
     }
 
-//    @GetMapping("/admin/city/delete")
-//    public String deleteCity(@RequestParam(value="id") Long id){
-//        if (id==null)
-//            throw new CityNotFoundException();
-//        cityService.deleteById(id);
-//        return "redirect:/admin/city";
-//    }
-//
-//
-//
-//    @GetMapping("/admin/city/edit")
-//    public String getCityToEdit (@RequestParam(value="id") Long id, Model model){
-//        model.addAttribute("title", "Admin - Cities list");
-//        model.addAttribute("city", cityService.getCityById(id));
-//        model.addAttribute("cities", cityService.getCities());
-//        return "/admin/city";
-//    }
+    @GetMapping("/delete")
+    public String delete(@RequestParam(value="id") Long id){
+        if (id==null)  return "redirect:/";
+        employeeService.deleteEmployeeById(id);
+        return "redirect:/";
+    }
+
+
+
+    @GetMapping("/edit")
+    public String getToEdit (@RequestParam(value="id") Long id, Model model){
+        model.addAttribute("title", "Main page");
+        model.addAttribute("employee", employeeService.findEmployeeById(id));
+        model.addAttribute("employees", employeeService.findAllEmployees());
+        return "index";
+    }
 
 
 

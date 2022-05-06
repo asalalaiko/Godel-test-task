@@ -24,7 +24,7 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
 
 
     public static final String INSERT_STATEMENT = "INSERT INTO employee (first_name, last_name, department_id, job_title, gender, date_of_birth) VALUES (?,?,?,?,?,?)";
-    public static final String UPDATE_STATEMENT = "UPDATE employee SET first_name=?, last_name=?, department_id=?, job_title=?, gender=?, date_of_birth=? WHERE id = ?";
+    public static final String UPDATE_STATEMENT = "UPDATE employee SET first_name=?, last_name=?, department_id=?, job_title=?, gender=?, date_of_birth=? WHERE employee_id = ?";
     public static final String DELETE_STATEMENT = "DELETE FROM employee WHERE employee_id = ?";
     public static final String SELECT_STATEMENT = "SELECT * FROM employee";
     public static final String SELECT_BY_ID_SQL = "SELECT * FROM employee WHERE employee_id = ?";

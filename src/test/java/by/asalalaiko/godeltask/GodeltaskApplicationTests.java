@@ -87,7 +87,7 @@ class GodeltaskApplicationTests {
 	@Test
 	public void update_book_OK() throws Exception {
 
-		String responseJsonString  =   mockMvc.perform(get("/employees/2"))
+		String responseJsonString  =   mockMvc.perform(get("/employees/4"))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andReturn().getResponse().getContentAsString();
