@@ -14,11 +14,6 @@ public class EmployeeServiceImpl implements EmployeeService{
     EmployeeDao employeeDao;
 
 
-//    public Employee createEmployee(Employee employee){
-//
-////        return  employeeDao.createEmployee(employee);
-//    }
-
     @Override
     public Employee saveEmployee(Employee employee) {
         if (employee.getEmployeeId()==null) return employeeDao.createEmployee(employee);
